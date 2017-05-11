@@ -49,8 +49,7 @@ let processProduct (product: JsonValue) (commit: string) (filename: string) =
 let processCommit commit filename =
     let output   = system ((sprintf "git show '%s:%s'" commit filename).Split(' ')) |> String.concat "\n"
     let data     = JsonValue.Parse output
-    let release  = data.["release"].AsArray()
-    let products = release |> Array.map (fun r -> r.TryGetProperty("updaterProduct"))
+    let products = [for r in data.["release"] -> r.TryGetProperty("updaterProduct")]
 
     printfn "Processing %s:%s" (commit.Substring(0, 8)) filename
 
