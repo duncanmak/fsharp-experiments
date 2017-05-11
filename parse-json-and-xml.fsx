@@ -2,7 +2,7 @@
 #r "System.Xml.Linq"
 #endif
 
-#load ".paket/load/net45/fsharp.data.fsx"
+#load ".paket/load/fsharp.data.fsx"
 open FSharp.Data
 open FSharp.Data.JsonExtensions
 
