@@ -11,6 +11,8 @@ open Helpers
 
 open System
 open System.IO
+open System.Text
+open System.Xml
 open System.Xml.Linq
 open System.Xml.XPath
 
@@ -44,7 +46,12 @@ let processProduct (product: JsonValue) (commit: string) (filename: string) =
         |> insert "ReleaseName" filename
         |> ignore
 
-    doc.Save(xml)
+    use w = XmlWriter.Create(xml, XmlWriterSettings
+                (Encoding = UTF8Encoding false,
+                 Indent = true,
+                 IndentChars = (String.replicate 4 " ")))
+
+    doc.Save(w)
 
 let processCommit commit filename =
     let output   = system ((sprintf "git show '%s:%s'" commit filename).Split(' ')) |> String.concat "\n"
