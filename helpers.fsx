@@ -3,6 +3,8 @@ module Helpers
 open System
 open System.Collections.Generic
 open System.Diagnostics
+open System.IO
+open System.Security.Cryptography;
 open System.Text.RegularExpressions
 
 let HomeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
@@ -30,3 +32,11 @@ let system s =
     p.BeginErrorReadLine()
     p.WaitForExit()
     outputs
+
+let md5File filename =
+    use md5 = MD5.Create()
+    use stream = File.OpenRead filename
+    BitConverter
+        .ToString(md5.ComputeHash stream)
+        .Replace("-", "‌​")
+        .ToLower()
